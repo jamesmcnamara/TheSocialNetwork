@@ -5,6 +5,8 @@ import java.util.HashMap;
 public class Vertex {
 
 	private int id;
+	private int friendCount;
+	
 	/**
 	#the adjacency list refers to vertices by their ID
 	
@@ -19,6 +21,7 @@ public class Vertex {
 	public Vertex(int ID)
 	{
 		id = ID;
+		friendCount = 0;
 		neighbors = new HashMap<Integer, Vertex>();
 	}
 	
@@ -31,18 +34,24 @@ public class Vertex {
 		return id;
 	}
 	
+	public int getFriendCount() {
+		return friendCount;
+	}
 	
 	public void addNeighbor(Vertex v)
 	{
 		neighbors.put(v.hashCode(), v);
+		friendCount++;
 		
 	}
 	
 	
 	public void removeNeighbor(Vertex v)
 	{
-		neighbors.remove(v.hashCode());
-
+		if (neighbors.containsKey(v.getID())) {
+			neighbors.remove(v.getID());
+			friendCount--;
+		}
 	}
 	
 	public HashMap<Integer, Vertex> getNeighbors() {
