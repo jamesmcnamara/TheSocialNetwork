@@ -26,7 +26,7 @@ public final class kCommunity {
         Graph g = new Graph(G);
         
         //Clone the keys for the graph so that we can iterate over it without
-        //deleting
+        //deleting from the iterator
         ArrayList<Integer> keys = new ArrayList<Integer>();
         for (Integer i : g.getVertices().keySet()) {
             keys.add(i);
@@ -38,15 +38,12 @@ public final class kCommunity {
         //for every node in the graph, we must check if they have enough friends
         for (Integer i : keys) {
             Vertex node = g.getVertex(i);
-            //if the current node is still part of the kComm map and has less
-            //than k friends, we need to delete it from kComm, remove it from
-            //its neighbors friends, as well as checking the ripple effect 
+            
+            //If this node has less than k friends, add it to the list of 
+            //vertices stacked for deletion
             if (node.getFriendCount() < k){
                 toDelete.addAll(g.removeVertexAndMarkVerticesToDelete(node, k));
             }   
-            //If the last element of the list is removed, the next() call will
-            //trigger a concurrent modification exception, and we know that 
-            //there is no kCommunity
         }
         //while the toDelete stack is non-empty, pop the top element, remove it,
         //decrement its friend count, and add its friends who fell below k to
