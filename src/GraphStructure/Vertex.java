@@ -113,4 +113,8 @@ public class Vertex {
 	public boolean equals (Vertex o) {
 	    return o.id == this.id;
 	}
+	
+	public Vertex copy() {
+	    return new Vertex(this.id);
+	}
 }

@@ -1,5 +1,6 @@
 package GraphStructure;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -28,8 +29,14 @@ public class Graph {
      */
     public Graph(Graph old)
     {
-        this.vertices = old.vertices;
-        this.edges = old.edges;
+        vertices = new HashMap<Integer, Vertex>();
+        for(int i = 1; i <= old.vertices.values().size(); i++) {
+            this.addVertex(i);
+        }
+        edges = new HashMap<Integer, Edge>();
+        for(Edge e : old.edges.values()) {
+            this.addEdge(e.getV1().getID(), e.getV2().getID());
+        }
     }
 
     /**EFFECT
@@ -101,6 +108,7 @@ public class Graph {
             Vertex v1 = vertices.get(i1);
             Vertex v2 = vertices.get(i2);
 
+
             v1.addNeighbor(v2);
             v2.addNeighbor(v1);
 
@@ -127,6 +135,33 @@ public class Graph {
             }
             vertices.remove(v.getID());
         }
+    }
+
+    /**MODIFIES
+     * Removes the given vertex from this graph if it exists
+     * As it removes the vertices' friends, it checks whether any of 
+     * the friends count's have dropped below the threshold
+     * If so, it adds them to an ArrayList and returns them
+     * @param v <code>Vertex</code>
+     * @param threshold <code>Integer</code> value of min friend count
+     * @return <code>ArrayList</code> of <code>Vertex</code> with friend
+     * counts below the threshold after deleting v
+     */
+    public ArrayList<Vertex> removeVertexAndMarkVerticesToDelete(Vertex v, int threshold) {
+        ArrayList<Vertex> toRemove = new ArrayList<Vertex>();
+        
+        if(vertices.containsKey(v.getID())) {
+            vertices.remove(v.getID());
+            
+            for(Vertex friend : v.getNeighbors().values()) {
+                friend.removeNeighbor(v);
+                
+                if (friend.getFriendCount() < threshold) {
+                    toRemove.add(friend);
+                }
+            }
+        }
+        return toRemove;
     }
 
     /**EFFECT

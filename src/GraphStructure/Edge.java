@@ -63,6 +63,10 @@ public class Edge {
     public Vertex getV2() { 
         return v2; 
     }
+    
+    public String toString() {
+        return this.hashCode() + " connects " + v1 + " to " + v2;
+    }
 
 
 }

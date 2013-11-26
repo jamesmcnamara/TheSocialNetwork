@@ -27,7 +27,8 @@ public final class MostMutualFriends {
     public static Map.Entry<Vertex, Integer> Run(Graph G, Vertex start)
     {
         Map<Vertex, Integer> oneHop = new HashMap<Vertex, Integer>();
-        Map<Integer, Vertex> startsFriends = start.getNeighbors();
+        Vertex startNode = G.getVertex(start.getID());
+        Map<Integer, Vertex> startsFriends = startNode.getNeighbors();
 
         int maxMutualCount = 0;
         Vertex maxMutualFriend = new Vertex(0);
@@ -41,7 +42,7 @@ public final class MostMutualFriends {
 
                 //Check that this friend of a friend is not friends with
                 //the start node
-                if (!startsFriends.containsValue(fof) && fof != start) {
+                if (!startsFriends.containsValue(fof) && fof != startNode) {
 
                     if (oneHop.containsKey(fof)) {
                         int fofMutualFriends = oneHop.get(fof) + 1;
@@ -63,6 +64,10 @@ public final class MostMutualFriends {
                     //one mutual friend
 
                     else {
+                        if (maxMutualFriend.getID() == 0) {
+                            maxMutualFriend = fof;
+                            maxMutualCount = 1;
+                        }
                         oneHop.put(fof, 1);
                     }
                 }
