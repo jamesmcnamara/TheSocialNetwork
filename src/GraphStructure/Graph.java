@@ -147,7 +147,8 @@ public class Graph {
      * @return <code>ArrayList</code> of <code>Vertex</code> with friend
      * counts below the threshold after deleting v
      */
-    public ArrayList<Vertex> removeVertexAndMarkVerticesToDelete(Vertex v, int threshold) {
+    public ArrayList<Vertex> removeVertexAndMarkVerticesToDelete(int threshold,
+    		Vertex v) {
         ArrayList<Vertex> toRemove = new ArrayList<Vertex>();
         
         if(vertices.containsKey(v.getID())) {

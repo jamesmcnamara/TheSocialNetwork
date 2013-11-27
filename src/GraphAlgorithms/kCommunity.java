@@ -42,15 +42,15 @@ public final class kCommunity {
             //If this node has less than k friends, add it to the list of 
             //vertices stacked for deletion
             if (node.getFriendCount() < k){
-                toDelete.addAll(g.removeVertexAndMarkVerticesToDelete(node, k));
+                toDelete.addAll(g.removeVertexAndMarkVerticesToDelete(k, node));
             }   
         }
         //while the toDelete stack is non-empty, pop the top element, remove it,
         //decrement its friend count, and add its friends who fell below k to
         //the stack
         while (!toDelete.isEmpty()) {
-            toDelete.addAll(g.removeVertexAndMarkVerticesToDelete(toDelete.
-                    remove(toDelete.size()-1), k));
+            toDelete.addAll(g.removeVertexAndMarkVerticesToDelete(k, 
+            		toDelete.remove(toDelete.size()-1)));
         }
         //Once we have removed all nodes that have less than k friends,
         //we have the largest kCommunity
